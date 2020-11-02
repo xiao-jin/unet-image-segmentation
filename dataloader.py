@@ -5,7 +5,7 @@ from torch.utils.data import Subset, DataLoader
 from torchvision.datasets import VOCSegmentation
 
 
-def load_datasets(batch_size=16,
+def load_datasets(batch_size=4,
                  image_resize=256,
                  train_dataset_size=1000,
                  test_dataset_size=100,

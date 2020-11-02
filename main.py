@@ -18,9 +18,12 @@ def main(args):
     model = UNet(out_channels=21)
     optimizer = optim.Adam(model.parameters(), lr=args.lr)
     criterion = nn.CrossEntropyLoss()
-    criterion = dice_loss
 
-    train_dataloader, test_dataloader = dataloader.load_datasets(batch_size=1, train_dataset_size=1)
+    train_dataloader, test_dataloader = dataloader.load_datasets(
+                                         batch_size=args.batch_size,
+                                         image_resize=args.image_resize,
+                                         train_dataset_size=args.train_data_size,
+                                         test_dataset_size=args.test_data_size)
 
     print(f'Start training for {args.epochs} epochs')
     train(model=model,
@@ -43,12 +46,16 @@ if __name__ == "__main__":
     # MacOS issue
     import os
     os.environ['KMP_DUPLICATE_LIB_OK']='True'
-    
+
     parser = argparse.ArgumentParser(description='Run experiments.')
     parser.add_argument('--epochs', type=int, default=200, 
                         help='Total epochs to be trained')
     parser.add_argument('--lr', type=float, default=1e-3, help='Learning rate')
-    parser.add_argument('--train_data_size', type=int, default=10000,
+    parser.add_argument('--batch_size', type=int, default=4,
+                        help='Batch size, warning: U-Net used a lot of VRAM')
+    parser.add_argument('--image_resize', type=int, default=256,
+                        help='Resize VOC images to WxH')
+    parser.add_argument('--train_data_size', type=int, default=1000,
                         help='Truncate the training data set')
     parser.add_argument('--test_data_size', type=int, default=100,
                         help='Truncate the test data set')

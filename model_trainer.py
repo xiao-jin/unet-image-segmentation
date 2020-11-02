@@ -22,12 +22,10 @@ def train(model,
           save_model_every=50
           ):
     device = utils.get_device()
-    losses = []
-    accuracies = []
 
-    # if isinstance(criterion, nn.modules.loss.CrossEntropyLoss):
-    #     CE_weights = utils.get_weight(dataloader.dataset)
-    #     criterion = nn.CrossEntropyLoss(CE_weights)
+    if isinstance(criterion, nn.modules.loss.CrossEntropyLoss):
+        CE_weights = utils.get_weight(dataloader.dataset)
+        criterion = nn.CrossEntropyLoss(CE_weights)
 
     for epoch in tqdm(range(1, epochs + 1)):
         losses_per_epoch = []
@@ -59,5 +57,5 @@ def train(model,
         if epoch % save_output_every == 0:
             utils.save_result(epoch, input, pred, target, name='epoch')
 
-        if epoch & save_model_every == 0:
+        if epoch % save_model_every == 0:
             utils.save_model(epoch, model)
