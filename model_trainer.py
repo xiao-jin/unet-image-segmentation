@@ -61,10 +61,3 @@ def train(model,
 
         if epoch & save_model_every == 0:
             utils.save_model(epoch, model)
-
-    
-
-if __name__ == "__main__":
-    # MacOS issue
-    import os
-    os.environ['KMP_DUPLICATE_LIB_OK']='True'

@@ -40,6 +40,10 @@ def main(args):
 
 
 if __name__ == "__main__":
+    # MacOS issue
+    import os
+    os.environ['KMP_DUPLICATE_LIB_OK']='True'
+    
     parser = argparse.ArgumentParser(description='Run experiments.')
     parser.add_argument('--epochs', type=int, default=200, 
                         help='Total epochs to be trained')

@@ -82,3 +82,4 @@ def save_result(epoch, input, pred, target, name, only_show=False):
 
 def save_model(epoch, model):
     torch.save(model.state_dict(), f'./saved_models/model_{epoch}.pt')
+    
