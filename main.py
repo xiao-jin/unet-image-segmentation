@@ -6,24 +6,26 @@ import torch.nn as nn
 import torch.optim as optim
 
 import dataloader
+import utils
+
 from model import UNet
 from model_eval import eval
-from model_trainer import train
-from dice_loss import dice_loss
+from model_trainer import trai
+
 
 os.makedirs('./saved_models/', exist_ok=True)
 os.makedirs('./results/', exist_ok=True)
 
 def main(args):
-    model = UNet(out_channels=21)
-    optimizer = optim.Adam(model.parameters(), lr=args.lr)
-    criterion = nn.CrossEntropyLoss()
-
     train_dataloader, test_dataloader = dataloader.load_datasets(
                                          batch_size=args.batch_size,
                                          image_resize=args.image_resize,
                                          train_dataset_size=args.train_data_size,
                                          test_dataset_size=args.test_data_size)
+    
+    model = UNet(out_channels=21)
+    optimizer = optim.Adam(model.parameters(), lr=args.lr)
+    criterion = nn.CrossEntropyLoss(utils.get_weight(train_dataloader.dataset))
 
     print(f'Start training for {args.epochs} epochs')
     train(model=model,

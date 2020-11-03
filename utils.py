@@ -31,9 +31,6 @@ def get_weight(train_dataset):
     unique = np.unique(all_targets, return_counts = True)
 
     weights = unique[1].sum() / unique[1]
-
-    assert len(weights) == 21, \
-        'The dataset does not contain all possible labels, try to increase the size'
     return torch.tensor(weights).float().to(get_device())
 
 

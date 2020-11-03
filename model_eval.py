@@ -1,6 +1,6 @@
 import utils
 
-def eval(model, dataloader):
+def eval(model, dataloader, only_show=False):
     device = utils.get_device()
     for step, (input, target) in enumerate(dataloader):
         model.eval()
@@ -9,5 +9,5 @@ def eval(model, dataloader):
         target = utils.preprocess_target(target)
         pred = model(input)
 
-        utils.save_result(step+1, input, pred, target, name='eval')
+        utils.save_result(step+1, input, pred, target, name='eval', only_show=only_show)
         

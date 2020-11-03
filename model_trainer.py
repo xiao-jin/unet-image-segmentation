@@ -19,13 +19,10 @@ def train(model,
           optimizer,
           criterion,
           save_output_every=10,
-          save_model_every=50
+          save_model_every=50,
+          only_show=False
           ):
     device = utils.get_device()
-
-    if isinstance(criterion, nn.modules.loss.CrossEntropyLoss):
-        CE_weights = utils.get_weight(dataloader.dataset)
-        criterion = nn.CrossEntropyLoss(CE_weights)
 
     for epoch in tqdm(range(1, epochs + 1)):
         losses_per_epoch = []
@@ -55,7 +52,7 @@ def train(model,
         print('Loss: %.3f   Accuracy: %.3f' % (mean_loss, mean_acc))
 
         if epoch % save_output_every == 0:
-            utils.save_result(epoch, input, pred, target, name='epoch')
+            utils.save_result(epoch, input, pred, target, name='epoch', only_show=only_show)
 
         if epoch % save_model_every == 0:
             utils.save_model(epoch, model)
