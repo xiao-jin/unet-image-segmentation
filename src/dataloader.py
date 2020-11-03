@@ -19,7 +19,7 @@ def load_datasets(batch_size=4,
     ])
 
     train_dataset = VOCSegmentation(
-                        './data/VOCSegmentation',
+                        '../data/VOCSegmentation',
                         image_set='train',
                         download=download,
                         transform=transform,
@@ -27,7 +27,7 @@ def load_datasets(batch_size=4,
                         )    
     
     test_dataset = VOCSegmentation(
-                        './data/VOCSegmentation',
+                        '../data/VOCSegmentation',
                         image_set='val',
                         download=download,
                         transform=transform,

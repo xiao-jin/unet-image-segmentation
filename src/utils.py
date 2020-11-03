@@ -73,10 +73,10 @@ def save_result(epoch, input, pred, target, name, only_show=False):
     if only_show:
         plt.show()
     else:
-        plt.savefig(f'./results/{name}_{epoch}.png')
+        plt.savefig(f'../results/{name}_{epoch}.png')
     plt.close(fig)
 
 
 def save_model(epoch, model):
-    torch.save(model.state_dict(), f'./saved_models/model_{epoch}.pt')
+    torch.save(model.state_dict(), f'../saved_models/model_{epoch}.pt')
     

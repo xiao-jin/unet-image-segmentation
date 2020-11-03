@@ -13,19 +13,26 @@ from model_eval import eval
 from model_trainer import train
 
 
-os.makedirs('./saved_models/', exist_ok=True)
-os.makedirs('./results/', exist_ok=True)
+os.makedirs('../saved_models/', exist_ok=True)
+os.makedirs('../results/', exist_ok=True)
 
 def main(args):
     train_dataloader, test_dataloader = dataloader.load_datasets(
                                          batch_size=args.batch_size,
                                          image_resize=args.image_resize,
                                          train_dataset_size=args.train_data_size,
-                                         test_dataset_size=args.test_data_size)
+                                         test_dataset_size=args.test_data_size,
+                                         download=args.download_dataset
+                                         )
     
     model = UNet(out_channels=21)
     optimizer = optim.Adam(model.parameters(), lr=args.lr)
-    criterion = nn.CrossEntropyLoss(utils.get_weight(train_dataloader.dataset))
+
+    ce_weight = utils.get_weight(train_dataloader.dataset)
+    if len(ce_weight) < 21:
+        criterion = nn.CrossEntropyLoss()
+    else:
+        criterion = nn.CrossEntropyLoss(utils.get_weight(train_dataloader.dataset))
 
     print(f'Start training for {args.epochs} epochs')
     train(model=model,
@@ -61,6 +68,11 @@ if __name__ == "__main__":
                         help='Truncate the training data set')
     parser.add_argument('--test_data_size', type=int, default=100,
                         help='Truncate the test data set')
-
+    parser.add_argument('--save_output_every', type=int, default=10,
+                        help='Save the output every epochs')
+    parser.add_argument('--save_model_every', type=int, default=50,
+                        help='Save the model every epochs')                
+    parser.add_argument('--download_dataset', action='store_true',
+                        help='To download the dataset')
     args = parser.parse_args()
     main(args)
