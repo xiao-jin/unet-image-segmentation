@@ -1,7 +1,7 @@
 import torch.nn.functional as F
 
 def dice_loss(pred, target, smooth=1):
-    pred = F.softmax(pred)
+    pred = F.softmax(pred, dim=1)
 
     intersection = (pred * target).sum(dim=1)
     unionset = pred.sum(dim=1) + target.sum(dim=1)

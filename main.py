@@ -10,7 +10,7 @@ import utils
 
 from model import UNet
 from model_eval import eval
-from model_trainer import trai
+from model_trainer import train
 
 
 os.makedirs('./saved_models/', exist_ok=True)
