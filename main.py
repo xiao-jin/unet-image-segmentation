@@ -8,8 +8,8 @@ import torch.optim as optim
 from project import *
 
 
-os.makedirs('../saved_models/', exist_ok=True)
-os.makedirs('../results/', exist_ok=True)
+os.makedirs('saved_models/', exist_ok=True)
+os.makedirs('results/', exist_ok=True)
 
 def main(args):
     train_dataloader, test_dataloader = dataloader.load_datasets(
