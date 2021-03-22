@@ -9,8 +9,8 @@ from tqdm import tqdm
 import numpy as np
 from PIL import Image
 
-from model import UNet
-import utils
+from .model import UNet
+from .utils import *
 
 
 def train(model,
@@ -22,7 +22,7 @@ def train(model,
           save_model_every=50,
           only_show=False
           ):
-    device = utils.get_device()
+    device = get_device()
 
     for epoch in tqdm(range(1, epochs + 1)):
         losses_per_epoch = []
@@ -32,7 +32,7 @@ def train(model,
             model.train()
             input, target = input.to(device), target.to(device)
 
-            target = utils.preprocess_target(target)
+            target = preprocess_target(target)
             pred = model(input)
             
             optimizer.zero_grad()
@@ -40,7 +40,7 @@ def train(model,
             loss.backward()
             optimizer.step()
 
-            acc = utils.get_accuracy(pred, target)
+            acc = get_accuracy(pred, target)
 
             losses_per_epoch.append(loss.item())
             accuracies_per_epoch.append(acc)
@@ -52,7 +52,7 @@ def train(model,
         print('Loss: %.3f   Accuracy: %.3f' % (mean_loss, mean_acc))
 
         if epoch % save_output_every == 0:
-            utils.save_result(epoch, input, pred, target, name='epoch', only_show=only_show)
+            save_result(epoch, input, pred, target, name='epoch', only_show=only_show)
 
         if epoch % save_model_every == 0:
-            utils.save_model(epoch, model)
+            save_model(epoch, model)

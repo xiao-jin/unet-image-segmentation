@@ -5,12 +5,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 
-import dataloader
-import utils
-
-from model import UNet
-from model_eval import eval
-from model_trainer import train
+from project import *
 
 
 os.makedirs('../saved_models/', exist_ok=True)

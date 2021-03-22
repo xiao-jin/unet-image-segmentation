@@ -26,7 +26,6 @@ class UNet(nn.Module):
                                   kernel_size=self.S,
                                   stride=self.S,
                                   padding=0),
-            nn.BatchNorm2d(),
             nn.ReLU(),
             self.conv_module(in_channels, out_channels),
         )
