@@ -3,6 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 class UNet(nn.Module):
+
     def conv_module(self, in_channels, out_channels):
         """
         Constructs a torch module Sequential
@@ -18,12 +19,17 @@ class UNet(nn.Module):
             nn.ReLU(),
         )
 
-    def upsample_module(self, in_channels):      
-        return nn.ConvTranspose2d(in_channels=in_channels, 
-                                  out_channels=in_channels // 2,
+    def upsample_module(self, in_channels, out_channels):
+        return nn.Sequential(
+            nn.ConvTranspose2d(in_channels=in_channels, 
+                                  out_channels=in_channels,
                                   kernel_size=self.S,
                                   stride=self.S,
-                                  padding=0)
+                                  padding=0),
+            nn.BatchNorm2d(),
+            nn.ReLU(),
+            self.conv_module(in_channels, out_channels),
+        )
 
     def __init__(self, in_channel=3, out_channels=3, kernel_size=3, striding=2, padding=1):
         """
@@ -55,10 +61,10 @@ class UNet(nn.Module):
         self.conv9 = self.conv_module(128, 64)
 
         # Upsampling modules
-        self.upsample1 = self.upsample_module(1024)
-        self.upsample2 = self.upsample_module(512)
-        self.upsample3 = self.upsample_module(256)
-        self.upsample4 = self.upsample_module(128)
+        self.upsample1 = self.upsample_module(1024, 512)
+        self.upsample2 = self.upsample_module(512, 256)
+        self.upsample3 = self.upsample_module(256, 128)
+        self.upsample4 = self.upsample_module(128, 64)
         
         # Functional modules
         self.maxpool2D = nn.MaxPool2d(kernel_size=2, stride=self.S, padding=0)

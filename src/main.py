@@ -60,8 +60,8 @@ if __name__ == "__main__":
     parser.add_argument('--epochs', type=int, default=200, 
                         help='Total epochs to be trained')
     parser.add_argument('--lr', type=float, default=1e-3, help='Learning rate')
-    parser.add_argument('--batch_size', type=int, default=4,
-                        help='Batch size, warning: U-Net used a lot of VRAM')
+    parser.add_argument('--batch_size', type=int, default=1,
+                        help='Batch size, warning: U-Net uses a lot of RAM')
     parser.add_argument('--image_resize', type=int, default=256,
                         help='Resize VOC images to WxH')
     parser.add_argument('--train_data_size', type=int, default=1000,
@@ -71,7 +71,7 @@ if __name__ == "__main__":
     parser.add_argument('--save_output_every', type=int, default=10,
                         help='Save the output every epochs')
     parser.add_argument('--save_model_every', type=int, default=50,
-                        help='Save the model every epochs')                
+                        help='Save the model every epochs')
     parser.add_argument('--download_dataset', action='store_true',
                         help='To download the dataset')
     args = parser.parse_args()
